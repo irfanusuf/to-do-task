@@ -37,7 +37,7 @@ This is a full-stack **ToDo Application** built using:
 ### **Setup Backend:**
 1. **Navigate to the API folder:**  
    ```sh
-   cd webApi
+   cd ToDoWebApiServer 
    ```
 2. **Install dependencies:**  
    ```sh
