@@ -18,38 +18,38 @@ const CreateTask = ({ onTaskCreated }) => {
       alert("Title and Description are required!");
       return;
     }
-
-
-
+  
     const taskData = {
       title,
       description,
-      dueDate: dueDate.toISOString(),
+      dueDate: dueDate.toISOString(), 
+      status: "Pending",
     };
-
+  
     try {
       const response = await axiosInstance.post(
         "/api/v1/Task/CreateTask",
         taskData,
         { headers: { "Content-Type": "application/json" } }
       );
-
+  
       alert("Task created successfully!");
       setTitle("");
       setDescription("");
-      setDueDate(dayjs().add(12, "hour"));
-
+      setDueDate(dayjs().add(12, "hour")); 
+  
       setTimeout(() => {
-        navigate("/todos")
+        navigate("/todos");
       }, 2000);
-
+  
       if (onTaskCreated) onTaskCreated(response.data.Task);
     } catch (error) {
       console.error("Error creating task:", error);
       alert(error.response?.data?.Message || "Failed to create task");
     }
   };
-
+  
+  
   return (
     <Container maxWidth="md" sx={{marginTop : 4}}>
       <Typography variant="h5" gutterBottom>Create Task</Typography>

@@ -22,11 +22,10 @@ namespace ToDoWebApi.Controllers
 
 
         [HttpPost("CreateTask")]
-        public async Task<IActionResult> CreateTask([FromBody] TodoTask task, [FromQuery] int? hours = 12)
+        public async Task<IActionResult> CreateTask([FromBody] TodoTask task)
         {
             try
             {
-
                 if (string.IsNullOrWhiteSpace(task.Title))
                 {
                     return BadRequest(new { Message = "Title is required." });
@@ -37,10 +36,10 @@ namespace ToDoWebApi.Controllers
                     return BadRequest(new { Message = "Description is required." });
                 }
 
-
-                int timeLimit = hours.HasValue && hours > 0 ? hours.Value : 12;
-                task.DueDate = DateTime.UtcNow.AddHours(timeLimit).AddMinutes(330);
-
+                if (task.DueDate == default) 
+                {
+                    task.DueDate = DateTime.UtcNow.AddHours(12);
+                }
 
                 task.Status = "Pending";
 
@@ -61,13 +60,10 @@ namespace ToDoWebApi.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return StatusCode(500, new
-                {
-                    Message = "Server Error",
-                    Error = ex.Message
-                });
+                return StatusCode(500, new { Message = "Server Error", Error = ex.Message });
             }
         }
+
 
 
         [HttpGet("GetAllTasks")]
@@ -152,7 +148,7 @@ namespace ToDoWebApi.Controllers
             try
             {
                 var filter = Builders<TodoTask>.Filter.Eq(t => t.Id, objectId);
-                var update = Builders<TodoTask>.Update.Set("Status", status); 
+                var update = Builders<TodoTask>.Update.Set("Status", status);
 
                 var result = await dbService.Task.UpdateOneAsync(filter, update);
 

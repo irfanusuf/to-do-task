@@ -35,9 +35,8 @@ const Todos = () => {
 
   const handleComplete = async (id) => {
     try {
-      await axiosInstance.put(`/api/v1/task/UpdateTaskStatus/${id}`, {
-        status: "Completed",
-      });
+      await axiosInstance.put(`/api/v1/task/UpdateTaskStatus/${id}?status=Completed`);
+      
       setTodos((prevTodos) =>
         prevTodos.map((todo) =>
           todo.id === id ? { ...todo, status: "Completed" } : todo
@@ -47,6 +46,7 @@ const Todos = () => {
       console.error("Error updating task:", error);
     }
   };
+  
 
   const handleDelete = async (id) => {
     try {
