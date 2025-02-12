@@ -42,7 +42,7 @@ namespace ToDoWebApi.Controllers
                 task.DueDate = DateTime.UtcNow.AddHours(timeLimit).AddMinutes(330);
 
 
-                task.Status = Status.Pending;
+                task.Status = "Pending";
 
                 await dbService.Task.InsertOneAsync(task);
                 return Ok(new
@@ -54,7 +54,7 @@ namespace ToDoWebApi.Controllers
                         task.Title,
                         task.Description,
                         task.DueDate,
-                        taskStatus = task.Status.ToString()
+                        taskStatus = task.Status
                     }
                 });
             }
@@ -113,14 +113,14 @@ namespace ToDoWebApi.Controllers
                     return NotFound(new { Message = "Task not found" });
                 }
 
-                if (task.Status != Status.Completed)
+                if (task.Status != "Completed")
                 {
                     return BadRequest(new { Message = "Task is not complete!" });
                 }
 
                 var filter = Builders<TodoTask>.Filter.And(
                      Builders<TodoTask>.Filter.Eq(t => t.Id, objectId),
-                     Builders<TodoTask>.Filter.Eq(t => t.Status, Status.Completed)
+                     Builders<TodoTask>.Filter.Eq(t => t.Status, task.Status)
                     );
                 var result = await dbService.Task.DeleteOneAsync(filter);
                 if (result.DeletedCount > 0)
@@ -137,23 +137,28 @@ namespace ToDoWebApi.Controllers
 
 
         [HttpPut("UpdateTaskStatus/{id}")]
-        public async Task<IActionResult> UpdateTaskStatus(string id, [FromBody] Status status)
+        public async Task<IActionResult> UpdateTaskStatus(string id, [FromQuery] string status)
         {
             if (!ObjectId.TryParse(id, out ObjectId objectId))
             {
                 return BadRequest(new { Message = "Invalid Task ID format" });
             }
 
+            if (string.IsNullOrEmpty(status))
+            {
+                return BadRequest(new { Message = "Status is required" });
+            }
+
             try
             {
                 var filter = Builders<TodoTask>.Filter.Eq(t => t.Id, objectId);
-                var update = Builders<TodoTask>.Update.Set(t => t.Status, status); 
+                var update = Builders<TodoTask>.Update.Set("Status", status); 
 
                 var result = await dbService.Task.UpdateOneAsync(filter, update);
 
                 if (result.ModifiedCount > 0)
                 {
-                    return Ok(new { Message = "Task status updated successfully", TaskId = id, NewStatus = status.ToString() });
+                    return Ok(new { Message = "Task status updated successfully", TaskId = id, NewStatus = status });
                 }
 
                 return NotFound(new { Message = "Task not found" });
@@ -163,7 +168,6 @@ namespace ToDoWebApi.Controllers
                 return StatusCode(500, new { Message = "Server Error", Error = ex.Message });
             }
         }
-
 
 
 

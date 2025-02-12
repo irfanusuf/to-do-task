@@ -1070,19 +1070,19 @@
     ]
   },
   "packageFolders": {
-    "/home/irfan_usuf/.nuget/packages/": {}
+    "/home/irfanusuf/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/irfan_usuf/coding/ProjectAmanzi/ToDoWebApiServer/ToDoWebApi.csproj",
+      "projectUniqueName": "/home/irfanusuf/to-do-task/ToDoWebApiServer/ToDoWebApi.csproj",
       "projectName": "ToDoWebApi",
-      "projectPath": "/home/irfan_usuf/coding/ProjectAmanzi/ToDoWebApiServer/ToDoWebApi.csproj",
-      "packagesPath": "/home/irfan_usuf/.nuget/packages/",
-      "outputPath": "/home/irfan_usuf/coding/ProjectAmanzi/ToDoWebApiServer/obj/",
+      "projectPath": "/home/irfanusuf/to-do-task/ToDoWebApiServer/ToDoWebApi.csproj",
+      "packagesPath": "/home/irfanusuf/.nuget/packages/",
+      "outputPath": "/home/irfanusuf/to-do-task/ToDoWebApiServer/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/irfan_usuf/.nuget/NuGet/NuGet.Config"
+        "/home/irfanusuf/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"

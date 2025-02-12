@@ -14,8 +14,7 @@ public class TodoTask
     public required string Description { get; set; }
     public DateTime DueDate { get; set; }
 
-    [BsonRepresentation(BsonType.String)]
-    public Status Status { get; set; }
+    public required string Status { get; set; }
 
 }
 
