@@ -26,7 +26,7 @@ namespace ToDoWebApi.Controllers
         {
             try
             {
-                
+
                 if (string.IsNullOrWhiteSpace(task.Title))
                 {
                     return BadRequest(new { Message = "Title is required." });
@@ -37,11 +37,11 @@ namespace ToDoWebApi.Controllers
                     return BadRequest(new { Message = "Description is required." });
                 }
 
-               
+
                 int timeLimit = hours.HasValue && hours > 0 ? hours.Value : 12;
                 task.DueDate = DateTime.UtcNow.AddHours(timeLimit).AddMinutes(330);
 
-             
+
                 task.Status = Status.Pending;
 
                 await dbService.Task.InsertOneAsync(task);
@@ -66,6 +66,31 @@ namespace ToDoWebApi.Controllers
                     Message = "Server Error",
                     Error = ex.Message
                 });
+            }
+        }
+
+
+        [HttpGet("GetAllTasks")]
+        public async Task<IActionResult> GetAllTasks()
+        {
+            try
+            {
+                var tasks = await dbService.Task.Find(_ => true).ToListAsync();
+
+
+                var formattedTasks = tasks.Select(task => new
+                {
+                    Id = task.Id.ToString(),
+                    task.Title,
+                    task.Description,
+                    task.DueDate,
+                    task.Status
+                });
+                return Ok(new { Message = "Tasks fetched successfully", Tasks = formattedTasks });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "Server Error", Error = ex.Message });
             }
         }
 
@@ -112,7 +137,7 @@ namespace ToDoWebApi.Controllers
 
 
         [HttpPut("UpdateTaskStatus/{id}")]
-        public async Task<IActionResult> UpdateTaskStatus(string id, [FromBody] JsonElement changeStatus)
+        public async Task<IActionResult> UpdateTaskStatus(string id, [FromBody] Status status)
         {
             if (!ObjectId.TryParse(id, out ObjectId objectId))
             {
@@ -121,15 +146,8 @@ namespace ToDoWebApi.Controllers
 
             try
             {
-                string statusString = changeStatus.GetString();
-
-                if (!Enum.TryParse<Status>(statusString, true, out Status status))
-                {
-                    return BadRequest(new { Message = "Only Put Allowed values: Pending, InProgress, Completed" });
-                }
-
                 var filter = Builders<TodoTask>.Filter.Eq(t => t.Id, objectId);
-                var update = Builders<TodoTask>.Update.Set(t => t.Status, status);
+                var update = Builders<TodoTask>.Update.Set(t => t.Status, status); 
 
                 var result = await dbService.Task.UpdateOneAsync(filter, update);
 
@@ -145,6 +163,7 @@ namespace ToDoWebApi.Controllers
                 return StatusCode(500, new { Message = "Server Error", Error = ex.Message });
             }
         }
+
 
 
 

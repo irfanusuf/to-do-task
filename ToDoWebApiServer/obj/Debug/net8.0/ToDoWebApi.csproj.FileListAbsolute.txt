@@ -76,3 +76,4 @@
 /home/irfan_usuf/coding/ProjectAmanzi/ToDoWebApiServer/obj/Debug/net8.0/ToDoWebApi.pdb
 /home/irfan_usuf/coding/ProjectAmanzi/ToDoWebApiServer/obj/Debug/net8.0/ToDoWebApi.genruntimeconfig.cache
 /home/irfan_usuf/coding/ProjectAmanzi/ToDoWebApiServer/obj/Debug/net8.0/ref/ToDoWebApi.dll
+/home/irfan_usuf/coding/ProjectAmanzi/ToDoWebApiServer/obj/Debug/net8.0/ToDoWebApi.sourcelink.json
