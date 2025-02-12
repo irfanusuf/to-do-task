@@ -8,7 +8,7 @@ This is a full-stack **ToDo Application** built using:
 ```
 /your-github-repo
 │── /client     # React frontend
-│── /webApi     # C# backend (ASP.NET Core)
+│── /ToDoWebApiServer     # C# backend (ASP.NET Core)
 │── README.md   # Project documentation
 ```
 
@@ -20,7 +20,7 @@ This is a full-stack **ToDo Application** built using:
 
 ---
 
-## 🛠 Backend (C# .NET 8) - `/webApi`
+## 🛠 Backend (C# .NET 8) - `/ToDoWebApiServer `
 ### **Tech Stack:**
 - **ASP.NET Core Web API**
 - **MongoDB** (using MongoDB.Driver)
